@@ -3,14 +3,11 @@
 The provisional .pim format is UTF-8 JSON with records and a next_id counter.
 """
 
-import json
 import operator
-import os
-import tempfile
 from datetime import datetime
-from pathlib import Path
 
 from . import FIELDS, TIME_FIELDS
+from .storage import load_records, save_records
 
 
 def _check_fields(kind, fields):
@@ -120,21 +117,7 @@ class DemoServices:
         return [record for record in self.records.list_records() if _matches(record, condition)]
 
     def save(self, path):
-        path = Path(path)
-        data = self.records.snapshot()
-        temporary = tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent, delete=False)
-        try:
-            with temporary:
-                json.dump(data, temporary, ensure_ascii=False, indent=2)
-                temporary.write("\n")
-            os.replace(temporary.name, path)
-        finally:
-            Path(temporary.name).unlink(missing_ok=True)
+        save_records(self.records, path)
 
     def load(self, path):
-        with Path(path).open(encoding="utf-8") as source:
-            try:
-                data = json.load(source)
-            except RecursionError as error:
-                raise ValueError("The .pim file contains excessively nested data.") from error
-        self.records.replace_snapshot(data)
+        load_records(self.records, path)
