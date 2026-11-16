@@ -1,25 +1,12 @@
 # COMP3211 Personal Information Manager (PIM) — v8
 
 A command-line organiser for notes, tasks, events and contacts. Python 3, standard library only.
-This source copy is verified with Python 3.9.6 on macOS using model unit tests.
-Uses the standard library only. Live date formatting runs on macOS/Linux ANSI terminals;
-Windows, redirected input and TERM=dumb use ordinary line input. Windows/Linux were not tested for this source copy.
-
-## Submission source copy
-
-This folder contains the v8 application and the four model test modules required
-for the project's unit-testing deliverable. The complete development test suite
-remains in the original local v8 folder and earlier repository commits.
-
-Open a terminal in this folder to use the commands below. Relative `.pim` paths
-are resolved from the current working directory.
-
-This is the source-code portion of the submission, not the complete final ZIP.
-Add the required SRS, design document, formal manuals, requirements coverage
-report, model coverage report in an accepted document format, videos,
-presentation slides and Honour Declaration before submitting the project.
+Tested on macOS with Python 3.9.6. Live date formatting runs on macOS/Linux ANSI terminals;
+Windows, redirected input and TERM=dumb use ordinary line input. Windows/Linux were not tested.
 
 ## Run
+
+Open a terminal in this folder. Relative `.pim` paths use the current working directory.
 
     python3 main.py                         # start the PIM
     python3 -m unittest discover tests      # run the 60 model tests
@@ -63,7 +50,7 @@ on Linux and macOS.
 | `save demo` / `load demo` | Use the specified filename; `.pim` is added if needed |
 | `exit` | Ask `[S]ave, [D]iscard, [C]ancel` when there are unsaved changes |
 
-`#3` identifies a record; legacy `view 3`, `edit 3`, and `delete 3` still work.
+`#3` identifies a record; `view 3`, `edit 3`, and `delete 3` also work.
 Menu choices use `1.`, `2.`, etc.; `0` returns. A record picker accepts `#3` or `3`.
 Commands and IDs need a space: use `view #3`, not `view3`.
 
@@ -149,10 +136,6 @@ The test modules are `test_record_manager.py`, `test_search.py`,
 `test_search_parser.py` and `test_storage.py`. Their scope covers records and
 validation, search evaluation, search syntax, and file persistence. Assertions
 state the expected results; comments and docstrings describe the tested behavior.
-
-The included tests total 572 lines, including blank lines and comments.
-Controller, view, live keyboard/PTY and coverage-tool tests are excluded from
-this submission source copy. The application code is identical to the full v8.
 
 Run `python3 tools/line_coverage.py` from this folder to regenerate `COVERAGE.txt`.
 Use Python 3.9.6 to reproduce the figures above; executable-line counts and

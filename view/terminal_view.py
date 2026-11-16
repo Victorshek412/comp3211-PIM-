@@ -207,16 +207,15 @@ def _date_error(fields: Sequence[str]) -> Optional[Tuple[int, str]]:
     return None
 
 
-def read_date(label: str, previous: Optional[date] = None) -> date:
-    """Ask for a date as YYYY-MM-DD (or "year month day"); Enter keeps previous if given.
+def read_date(label: str) -> date:
+    """Ask for a date as YYYY-MM-DD (or "year month day").
 
     A wrong part (for example day 31 in June) is asked for again on its own.
 
     Raises:
         Cancelled, Back: the user typed /cancel or /back.
     """
-    keep = f", Enter = {previous.isoformat()}" if previous else ""
-    full_prompt = f"{label} date (YYYY-MM-DD{keep}): "
+    full_prompt = f"{label} date (YYYY-MM-DD): "
     fields: List[str] = []
     active: Optional[int] = None
     while True:
@@ -226,8 +225,6 @@ def read_date(label: str, previous: Optional[date] = None) -> date:
             prompt = f"{label} date: enter the {('year', 'month', 'day')[active]}: "
         value = ask(prompt, date_mode="date" if active is None else "").strip()
         if not value:
-            if previous and active is None:
-                return previous
             continue
         if value.isascii() and value.isdecimal() and len(value) == 8:
             value = f"{value[:4]}-{value[4:6]}-{value[6:]}"
