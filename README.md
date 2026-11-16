@@ -1,29 +1,29 @@
 # COMP3211 Personal Information Manager (PIM) — v8
 
 A command-line organiser for notes, tasks, events and contacts. Python 3, standard library only.
-v8 verified with Python 3.9 on macOS, including real POSIX terminal (PTY) input tests.
+This source copy is verified with Python 3.9.6 on macOS using model unit tests.
 Uses the standard library only. Live date formatting runs on macOS/Linux ANSI terminals;
-Windows, redirected input and TERM=dumb use ordinary line input. Windows/Linux were not tested in this update.
+Windows, redirected input and TERM=dumb use ordinary line input. Windows/Linux were not tested for this source copy.
 
-## v8 精簡版
+## Submission source copy
 
-保留 v7 操作同檔案格式；主要合併重複測試及設定，集中 edit 驗證同檔案錯誤處理。
-原有 v7 folder 保留。所有操作說明集中喺本 README。
+This folder contains the v8 application and the four model test modules required
+for the project's unit-testing deliverable. The complete development test suite
+remains in the original v8 folder and GitHub repository.
 
-```sh
-cd /Users/victorshek/Desktop/SE/comp3211-PIM-v8
-python3 main.py
-```
+Open a terminal in this folder to use the commands below. Relative `.pim` paths
+are resolved from the current working directory.
 
-搬動 folder 後，將 `cd` 改成實際位置。舊 `.pim` 可以用完整路徑載入；
-相對路徑以目前工作目錄為準。
+This is the source-code portion of the submission, not the complete final ZIP.
+Add the required SRS, design document, formal manuals, requirements coverage
+report, model coverage report in an accepted document format, videos,
+presentation slides and Honour Declaration before submitting the project.
 
 ## Run
 
     python3 main.py                         # start the PIM
-    python3 -m unittest discover tests      # run all tests
+    python3 -m unittest discover tests      # run the 60 model tests
     python3 tools/line_coverage.py          # run tests and write COVERAGE.txt (line coverage of model/)
-    python3 tools/line_coverage.py controller view   # print coverage of other packages
 
 ## Project layout (MVC)
 
@@ -39,7 +39,7 @@ python3 main.py
 | `view/terminal_view.py` | View | C | Left-aligned forms, prompts and menus; `/back`, `/cancel`, `/done` |
 | `view/date_input.py` | View | C | Live date separators and keyboard editing on POSIX terminals |
 | `main.py` | | C | Starts the controller |
-| `tests/` | | all | Unit tests for every layer |
+| `tests/` | | all | Unit tests for the model (four modules) |
 | `tools/line_coverage.py` | | D | Standard-library line-coverage report |
 | `COVERAGE.txt` | | D | Latest line coverage of `model/` |
 
@@ -72,7 +72,6 @@ finishes. Internal blank lines, Chinese text and literal backslashes are preserv
 `/done`, `/back` and `/cancel` are reserved standalone lines in the note editor.
 Quick input such as `add note /done` can store a reserved word as a one-line note.
 Editing a note replaces its entire text; `/cancel` keeps the previous version.
-This replaces v6's trailing-backslash continuation convention.
 
 **Dates:** In a macOS/Linux terminal, type `202612051800` and the date field visibly
 adds `-`, a space, and `:` as you type, producing `2026-12-05 18:00` before Enter.
@@ -142,22 +141,23 @@ The `.pim` file is UTF-8 JSON: `{"next_id": int, "records": [ ... ]}`. IDs are n
 
 ## Verification
 
-On macOS / Python 3.9, all 109 test methods pass (including parameterized input
-cases), and model line coverage is 384/384. Python source totals, including blank
-lines and comments: v7 3,421 → v8 2,863 (558 fewer, 16.3%). Application code is
-1,501 lines, tests 1,278, and the coverage tool 84. Excluding blank lines, comments
-and docstrings, the combined total is 2,150 lines.
+On macOS with Python 3.9.6, the four included model test modules contain 60 test
+methods (including parameterized input cases). All pass, and model line coverage
+is 384/384 executable lines (100%) using `tools/line_coverage.py`.
 
+The test modules are `test_record_manager.py`, `test_search.py`,
+`test_search_parser.py` and `test_storage.py`. Their scope covers records and
+validation, search evaluation, search syntax, and file persistence. Assertions
+state the expected results; comments and docstrings describe the tested behavior.
 
-The reduced suite uses `subTest` for equivalent inputs; its method count is not a
-count of all input cases. All four model-test files and the live keyboard/PTY test
-files are retained from v7. Controller and view tests use real input sequences
-instead of repeatedly replacing internal functions.
+The included tests total 572 lines, including blank lines and comments.
+Controller, view, live keyboard/PTY and coverage-tool tests are excluded from
+this submission source copy. The application code is identical to the full v8.
 
-The original 186-test v7 suite was also run against the v8 application and passed.
-Model coverage is reported separately in `COVERAGE.txt`. The standard-library
-tracer measures this process only, so the optional `controller view` coverage
-report excludes raw terminal code executed in the PTY child processes.
+Run `python3 tools/line_coverage.py` from this folder to regenerate `COVERAGE.txt`.
+Use Python 3.9.6 to reproduce the figures above; executable-line counts and
+exception paths may differ on other Python versions. The raw TXT output should
+be accompanied by a formal coverage report in DOC, DOCX or PDF for submission.
 
 ## Deadline
 
