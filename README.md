@@ -9,7 +9,7 @@ Windows, redirected input and TERM=dumb use ordinary line input. Windows/Linux w
 
 This folder contains the v8 application and the four model test modules required
 for the project's unit-testing deliverable. The complete development test suite
-remains in the original v8 folder and GitHub repository.
+remains in the original local v8 folder and earlier repository commits.
 
 Open a terminal in this folder to use the commands below. Relative `.pim` paths
 are resolved from the current working directory.
