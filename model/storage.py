@@ -1,33 +1,32 @@
+"""Part D: save and load records as .pim files (UTF-8 JSON)."""
+
 import json
 import os
 import tempfile
 from pathlib import Path
+from typing import Union
 
 from .record_manager import RecordManager
 
+PathLike = Union[str, "os.PathLike[str]"]
 
-def _check_path(path):
+
+def _check_path(path: PathLike) -> Path:
     path = Path(path)
     if path.suffix.lower() != ".pim":
         raise ValueError("Storage files must use the .pim extension.")
     return path
 
 
-def _validate_snapshot(data):
-    if not isinstance(data, dict) or not isinstance(data.get("records"), list):
-        raise ValueError("Expected a list of records in the .pim file.")
-    if not data["records"]:
-        raise ValueError("The .pim file must contain at least one record.")
+def save_records(record_manager: RecordManager, path: PathLike) -> None:
+    """Save all records to a .pim file. The write is atomic: on failure the old file is kept.
 
-    validator = RecordManager()
-    validator.replace_snapshot(data)
-
-
-def save_records(record_manager, path):
-    """Save a validated record-manager snapshot to a .pim JSON file."""
+    Raises:
+        ValueError: the path does not end in .pim.
+        OSError: the file cannot be written.
+    """
     path = _check_path(path)
     data = record_manager.snapshot()
-    _validate_snapshot(data)
 
     temporary_path = None
     try:
@@ -51,8 +50,14 @@ def save_records(record_manager, path):
             temporary_path.unlink(missing_ok=True)
 
 
-def load_records(record_manager, path):
-    """Load a validated .pim JSON snapshot without changing state on failure."""
+def load_records(record_manager: RecordManager, path: PathLike) -> None:
+    """Replace all records with those in a .pim file. On any failure the records are unchanged.
+
+    Raises:
+        ValueError: the path does not end in .pim, or the file is not valid PIM data
+            (bad JSON, bad encoding, malformed or invalid records).
+        OSError: the file cannot be read.
+    """
     path = _check_path(path)
     try:
         with path.open(encoding="utf-8") as source:
@@ -62,5 +67,4 @@ def load_records(record_manager, path):
     except json.JSONDecodeError as error:
         raise ValueError("The .pim file does not contain valid JSON.") from error
 
-    _validate_snapshot(data)
     record_manager.replace_snapshot(data)

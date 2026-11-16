@@ -1,0 +1,12 @@
+Line coverage of model (stdlib sys.settrace)
+
+File                          Lines    Run   Cover  Missing
+model/__init__.py                12     12    100%  
+model/record_manager.py          96     96    100%  
+model/records.py                 36     36    100%  
+model/search.py                  53     53    100%  
+model/search_parser.py          142    142    100%  
+model/storage.py                 45     45    100%  
+
+TOTAL                           384    384    100%
+Tests run: 109, failures: 0, errors: 0

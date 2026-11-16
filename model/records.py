@@ -1,87 +1,54 @@
+"""PIR classes. Which fields each type has is listed once, in model.FIELDS."""
+
+from . import FIELDS, RecordData
+
+
 class Record:
-    def __init__(self, record_id: int, record_type: str):
+    """Base class of every personal information record (PIR)."""
+
+    def __init__(self, record_id: int, record_type: str) -> None:
         self.id = record_id
         self.type = record_type
 
-    def to_dict(self):
-        return {"id": self.id, "type": self.type}
-
-
-class Note(Record):
-    def __init__(self, record_id: int, text: str):
-        super().__init__(record_id, "note")
-        self.text = text
-
-    def update(self, text: str = None):
-        if text is not None:
-            self.text = text
-
-    def to_dict(self):
-        data = super().to_dict()
-        data["text"] = self.text
+    def to_dict(self) -> RecordData:
+        """Return the record as {"id", "type", <fields>}; the result is a copy."""
+        data: RecordData = {"id": self.id, "type": self.type}
+        data.update({name: getattr(self, name) for name in FIELDS[self.type]})
         return data
 
 
+class Note(Record):
+    """Plain text for quick notes (US2)."""
+
+    def __init__(self, record_id: int, text: str) -> None:
+        super().__init__(record_id, "note")
+        self.text = text
+
+
 class Task(Record):
-    def __init__(self, record_id: int, description: str, deadline: str):
+    """A to-do with a description and a deadline (US3)."""
+
+    def __init__(self, record_id: int, description: str, deadline: str) -> None:
         super().__init__(record_id, "task")
         self.description = description
         self.deadline = deadline
 
-    def update(self, description: str = None, deadline: str = None):
-        if description is not None:
-            self.description = description
-        if deadline is not None:
-            self.deadline = deadline
-
-    def to_dict(self):
-        data = super().to_dict()
-        data["description"] = self.description
-        data["deadline"] = self.deadline
-        return data
-
 
 class Event(Record):
-    def __init__(self, record_id: int, description: str, start: str, alarm: str):
+    """A scheduled event with a start time and an alarm (US4)."""
+
+    def __init__(self, record_id: int, description: str, start_time: str, alarm: str) -> None:
         super().__init__(record_id, "event")
         self.description = description
-        self.start = start
+        self.start_time = start_time
         self.alarm = alarm
-
-    def update(self, description: str = None, start: str = None, alarm: str = None):
-        if description is not None:
-            self.description = description
-        if start is not None:
-            self.start = start
-        if alarm is not None:
-            self.alarm = alarm
-
-    def to_dict(self):
-        data = super().to_dict()
-        data["description"] = self.description
-        data["start"] = self.start
-        data["alarm"] = self.alarm
-        return data
 
 
 class Contact(Record):
-    def __init__(self, record_id: int, name: str, address: str, mobile: str):
+    """A person with a name, an address and a mobile number (US5)."""
+
+    def __init__(self, record_id: int, name: str, address: str, mobile: str) -> None:
         super().__init__(record_id, "contact")
         self.name = name
         self.address = address
         self.mobile = mobile
-
-    def update(self, name: str = None, address: str = None, mobile: str = None):
-        if name is not None:
-            self.name = name
-        if address is not None:
-            self.address = address
-        if mobile is not None:
-            self.mobile = mobile
-
-    def to_dict(self):
-        data = super().to_dict()
-        data["name"] = self.name
-        data["address"] = self.address
-        data["mobile"] = self.mobile
-        return data

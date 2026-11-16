@@ -1,9 +1,21 @@
-"""Record fields shared by the Part C view and the demo service."""
+"""Model layer: records, validation, search and .pim storage. No input or output happens here."""
 
+from typing import Any, Dict, Tuple
+
+# A record as plain data: {"id": int, "type": str, <one entry per field of that type>}.
+RecordData = Dict[str, Any]
+# A search condition: nested tuples, see model.search.
+Condition = Tuple[Any, ...]
+
+# The one place that lists which fields each record type has.
 FIELDS = {
     "note": ("text",),
     "task": ("description", "deadline"),
-    "event": ("description", "start", "alarm"),
+    "event": ("description", "start_time", "alarm"),
     "contact": ("name", "address", "mobile"),
 }
-TIME_FIELDS = ("deadline", "start", "alarm")
+TIME_FIELDS = ("deadline", "start_time", "alarm")
+
+# Every field that holds free text (searchable with "contains"): derived, never hand-listed.
+TEXT_FIELDS = tuple(dict.fromkeys(
+    name for names in FIELDS.values() for name in names if name not in TIME_FIELDS))

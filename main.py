@@ -1,13 +1,12 @@
-"""Start the Part C terminal with the demonstration services."""
+"""Start the PIM terminal: python3 main.py"""
 from controller import Controller
-from model.demo import DemoServices
 from model.record_manager import RecordManager
 
-def main():
-    records = RecordManager()
-    services = DemoServices(records)
-    print("PIM | System Ready")
-    return Controller(records, services.search, services).run()
+
+def main() -> int:
+    """Run the PIM until the user exits and return the exit code."""
+    return Controller(RecordManager()).run()
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
