@@ -1,4 +1,4 @@
-"""Model layer: records, validation, search and .pim storage. No input or output happens here."""
+"""Model layer: records, validation, search and .pim storage. No terminal input or output."""
 
 from typing import Any, Dict, Tuple
 

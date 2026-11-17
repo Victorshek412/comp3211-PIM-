@@ -1,4 +1,4 @@
-# COMP3211 Personal Information Manager
+# COMP3211 Personal Information Manager — Final version
 
 A command-line program for keeping notes, tasks, events and contacts.
 You can add, view, edit, search and delete records, then save them in a `.pim` file.
@@ -60,7 +60,7 @@ Type `help search` for a reminder. Use `view #ID` to open a search result.
 
 ## Tests
 
-Run the model tests:
+Run the model tests and terminal regression tests:
 
 ```sh
 python3 -m unittest discover tests
@@ -80,5 +80,5 @@ The result is saved in `COVERAGE.txt`.
 - `model/`: records, validation, searching, saving and loading.
 - `controller/`: handles commands.
 - `view/`: displays prompts and reads input.
-- `tests/`: unit tests for the model.
+- `tests/`: model unit tests and terminal regression tests.
 - `tools/`: the coverage script.

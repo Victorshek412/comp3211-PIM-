@@ -9,4 +9,4 @@ model/search_parser.py          142    142    100%
 model/storage.py                 45     45    100%  
 
 TOTAL                           384    384    100%
-Tests run: 60, failures: 0, errors: 0
+Tests run: 62, failures: 0, errors: 0

@@ -1,6 +1,6 @@
 """Part B: search records by type, text and time, combined with and / or / not.
 
-A condition is a nested tuple (the format already used by Part C's search_flow):
+A condition is a nested tuple built by model.search_parser:
     ("type", kind)
     ("contains", field, text)          text fields only, case-insensitive
     ("time", field, "<" | "=" | ">", "YYYY-MM-DD HH:MM")

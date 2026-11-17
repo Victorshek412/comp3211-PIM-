@@ -57,6 +57,7 @@ def ask(prompt: str, *, default: str = "", date_mode: str = "") -> str:
         Back: the user typed /back.
         EOFError: the input ended (for example Ctrl+D).
     """
+    prompt = _safe_line(prompt)
     line = read_date_line(prompt, date_mode) if date_mode else input(prompt)
     command = line.strip().lower()
     if command == "/cancel":
