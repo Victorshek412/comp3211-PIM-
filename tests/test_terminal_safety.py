@@ -1,6 +1,7 @@
 """Loaded text must remain data, including when it appears in an edit prompt."""
 
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -23,6 +24,7 @@ class TerminalSafetyTests(unittest.TestCase):
             source.write_text(json.dumps(data), encoding="utf-8")
             result = subprocess.run(
                 [sys.executable, str(MAIN)], cwd=directory,
+                env={**os.environ, "PYTHONIOENCODING": "utf-8"},
                 input="load source\nedit #1\n1\n\nsave saved\nexit\n",
                 capture_output=True, text=True, encoding="utf-8", timeout=10)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -37,6 +39,7 @@ class TerminalSafetyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             result = subprocess.run(
                 [sys.executable, str(MAIN)], cwd=directory,
+                env={**os.environ, "PYTHONIOENCODING": "utf-8"},
                 input="add contact\nAlice\nHong Kong\n12345678\n"
                       "edit #1\n1\n陳小明\nsave saved\nexit\n",
                 capture_output=True, text=True, encoding="utf-8", timeout=10)
