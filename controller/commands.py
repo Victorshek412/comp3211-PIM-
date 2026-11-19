@@ -29,8 +29,10 @@ HELP_SEARCH = """search milk              records containing "milk" (also inside
 search milk | eggs       records containing either phrase
 search where CONDITION   typed condition, for example:
   type = task && (deadline < "2026-12-01 09:00" || !description contains "x")
-Fields: type, text, description, name, address, mobile (use contains "..."),
-        deadline, start_time, alarm (use < = >). Combine with && || ! ( )
+Fields: type (use =)
+        text, description, name, address, mobile (use contains "...")
+        deadline, start_time, alarm (use < = >)
+Combine conditions with && || ! ( )
 Literal |: search where text contains "a|b" """.rstrip()
 
 NO_RECORDS = "No records yet. Type add note to create one."
